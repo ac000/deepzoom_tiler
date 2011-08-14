@@ -1,0 +1,90 @@
+Overview
+========
+
+This is a program to create image tiles from a given image, that is suitable
+for use in a DeepZoom[1] viewer, such as OpenSeadragon[2].
+
+Basically it builds up a pyramid of tiles with each level being half the size
+of its predecessor. Each level shows the same image, just at a different size.
+
+See, [3] and [4] for details on this, having read Microsoft's documentation[5],
+those proved to be indispensable.
+
+
+Requirements
+============
+
+The only thing other than a C compiler is GraphicsMagick[6].
+
+Usage
+=====
+
+$ deepzoom_tiler [-t tile size] [-o overlap] [-h] <image>
+
+-t tile size is the size of the tiles to create. If you don't specify it, it
+defaults to 256.
+
+-o overlap is the number of pixels to overlap the tiles by, it defaults to 0
+(no overlap)
+
+-h prints the usage text.
+
+image is the name of the image to tile.
+
+For a quick start, do the following.
+
+Create a directory, say deepzoom.
+Download OpenSeadragon and stick its files in the above directory.
+Put an image in the above directory.
+Run '/path/to/deepzoom_tiler image.jpg' from the above directory.
+
+That will create a directory called image_files and a file called image.dzi
+
+Create an html file in the above directory, say openseadragon.html with the
+following contents;
+
+<html>
+<head>
+<script type = "text/javascript" src = "OpenSeadragon.js"></script>
+
+<script type="text/javascript">
+	var viewer = null;
+
+	function init() {
+		viewer1 = new Seadragon.Viewer("container");
+		viewer1.openDzi("image.dzi");
+	}
+
+	Seadragon.Utils.addEvent(window, "load", init);
+</script>
+
+<style type = "text/css">
+            #container
+            {
+                width: 400px;
+                height: 400px;
+                background-color: black;
+                border: 1px solid black;
+                color: white;   /* for error messages, etc. */
+            }
+</style>
+</head>
+<body>
+
+<div id = "container"></div>
+
+</body>
+</html>
+
+
+Then open that html file in a browser and you should get a window showing your
+image that you can pan and zoom. You can use the button controls or your
+mouse wheel to zoom in and out.
+
+
+[1] - http://en.wikipedia.org/wiki/Deep_Zoom
+[2] - http://openseadragon.codeplex.com/
+[3] - http://gasi.ch/blog/inside-deep-zoom-1/
+[4] - http://gasi.ch/blog/inside-deep-zoom-2/
+[5] - http://msdn.microsoft.com/en-us/library/cc645077%28v=VS.95%29.aspx
+[6] - http://www.graphicsmagick.org/
