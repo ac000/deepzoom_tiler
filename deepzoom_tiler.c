@@ -81,7 +81,6 @@ static void create_level(Image *image, char *type, int level,
 
 	/* We create the tiles by columns */
 	for (i = 0; i < columns * rows; i++) {
-		char tname[PATH_MAX];
 		Image *tile;
 
 		if (i % rows == 0 && i != 0) {
@@ -150,9 +149,8 @@ static void create_level(Image *image, char *type, int level,
 		}
 
 		tile = CropImage(rimage, &cropper, &exception);
-		snprintf(tname, PATH_MAX, "%d/%d_%d.%s", level, col, row,
-									type);
-		strcpy(tile->filename, tname);
+		snprintf(tile->filename, sizeof(tile->filename), "%d/%d_%d.%s",
+							level, col, row, type);
 		WriteImage(image_info, tile);
 		DestroyImage(tile);
 
@@ -216,7 +214,7 @@ int main(int argc, char **argv)
 	}
 
 	if (optind < argc) {
-		snprintf(image_name, NAME_MAX + 1, "%s", argv[optind]);
+		snprintf(image_name, sizeof(image_name), "%s", argv[optind]);
 	} else {
 		print_usage();
 		exit(EXIT_FAILURE);
@@ -225,15 +223,15 @@ int main(int argc, char **argv)
 	InitializeMagick(NULL);
 	GetExceptionInfo(&exception);
 	image_info = CloneImageInfo((ImageInfo *)NULL);
-	strcpy(image_info->filename, image_name);
+	snprintf(image_info->filename, sizeof(image_info->filename), "%s",
+								image_name);
 	image = ReadImage(image_info, &exception);
 	if (exception.severity != UndefinedException)
 		CatchImageException(image);
 
 	ext = rindex(image_name, '.');
-	strncpy(deepzoom_directory, image_name, strlen(image_name) -
-								strlen(ext));
-	deepzoom_directory[strlen(image_name) - strlen(ext)] = '\0';
+	snprintf(deepzoom_directory, strlen(image_name) - strlen(ext) + 1,
+							"%s", image_name);
 	strcpy(dzi, deepzoom_directory);
 	strncat(deepzoom_directory, "_files", NAME_MAX -
 						strlen(deepzoom_directory));
