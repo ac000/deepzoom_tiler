@@ -64,7 +64,7 @@ static void create_level(Image *image, char *type, int level,
 	unsigned int col = 0;
 	unsigned int xoff = 0;
 	unsigned int yoff = 0;
-	char dname[NAME_MAX];
+	char dname[NAME_MAX + 1];
 	Image *rimage;
 	ImageInfo *image_info;
 	ExceptionInfo exception;
@@ -76,7 +76,7 @@ static void create_level(Image *image, char *type, int level,
 								&exception);
 	memset(&cropper, 0, sizeof(cropper));
 
-	snprintf(dname, NAME_MAX, "%d", level);
+	snprintf(dname, NAME_MAX + 1, "%d", level);
 	mkdir(dname, 0777);
 
 	/* We create the tiles by columns */
@@ -196,8 +196,8 @@ int main(int argc, char **argv)
 	ImageInfo *image_info;
 	Image *image;
 	char *ext;
-	char image_name[NAME_MAX];
-	char deepzoom_directory[NAME_MAX];
+	char image_name[NAME_MAX + 1];
+	char deepzoom_directory[NAME_MAX + 1];
 	char dzi[NAME_MAX];
 	int opt;
 
@@ -216,7 +216,7 @@ int main(int argc, char **argv)
 	}
 
 	if (optind < argc) {
-		snprintf(image_name, NAME_MAX, "%s", argv[optind]);
+		snprintf(image_name, NAME_MAX + 1, "%s", argv[optind]);
 	} else {
 		print_usage();
 		exit(EXIT_FAILURE);
