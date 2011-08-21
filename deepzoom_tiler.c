@@ -6,15 +6,19 @@
  * See COPYING
  */
 
+#define _XOPEN_SOURCE 500	/* For NAME_MAX & PATH_MAX */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <limits.h>
 #include <math.h>
 #include <ctype.h>
+#include <getopt.h>
 
 #include <magick/api.h>
 
