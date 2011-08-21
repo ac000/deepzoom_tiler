@@ -185,8 +185,8 @@ static void create_levels(Image *image, char *type, unsigned long width,
 					level, width, height, columns, rows);
 		create_level(image, type, level, width, height, columns, rows);
 
-		width = ceil((float)width / 2);
-		height = ceil((float)height / 2);
+		width = (width + 1) >> 1; /* +1 for the effects of ceil */
+		height = (height + 1) >> 1;
 	}
 }
 
