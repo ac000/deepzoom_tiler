@@ -32,32 +32,30 @@ int overlap = 0;
 static void print_usage(void)
 {
 	printf("Usage: deepzoom_tiler [-t tile size] [-o overlap size] [-h] "
-								"<image>\n");
+		"<image>\n");
 }
 
 static void write_dzi(char *dzi, char *type, unsigned int width,
-							unsigned int height)
+		      unsigned int height)
 {
 	FILE *fp = fopen(dzi, "w");
 
 	/* It seems the contents of this file are case sensitive */
 	fprintf(fp, "<?xml version = \"1.0\" encoding = \"UTF-8\" ?>\n");
 	fprintf(fp, "<Image Format = \"%s\" Overlap = \"%d\" TileSize = "
-			"\"%d\" xmlns = "
-			"\"http://schemas.microsoft.com/deepzoom/2008\">\n",
-						type, OVERLAP, TILE_SZ);
+		"\"%d\" xmlns = "
+		"\"http://schemas.microsoft.com/deepzoom/2008\">\n",
+		type, OVERLAP, TILE_SZ);
 	fprintf(fp, "\t<Size Width = \"%u\" Height = \"%u\" />\n",
-								width, height);
+		width, height);
 	fprintf(fp, "</Image>\n");
 
 	fclose(fp);
 }
 
 static void create_level(Image *image, char *type, int level,
-							unsigned long width,
-							unsigned long height,
-							unsigned int columns,
-							unsigned int rows)
+			 unsigned long width, unsigned long height,
+			 unsigned int columns, unsigned int rows)
 {
 	int i;
 	unsigned int row = 0;
@@ -73,7 +71,7 @@ static void create_level(Image *image, char *type, int level,
 	GetExceptionInfo(&exception);
 	image_info = CloneImageInfo((ImageInfo *)NULL);
 	rimage = ResizeImage(image, width, height, LanczosFilter, 1.0,
-								&exception);
+			&exception);
 	memset(&cropper, 0, sizeof(cropper));
 
 	snprintf(dname, NAME_MAX + 1, "%d", level);
@@ -150,7 +148,7 @@ static void create_level(Image *image, char *type, int level,
 
 		tile = CropImage(rimage, &cropper, &exception);
 		snprintf(tile->filename, sizeof(tile->filename), "%d/%d_%d.%s",
-							level, col, row, type);
+			level, col, row, type);
 		WriteImage(image_info, tile);
 		DestroyImage(tile);
 
@@ -165,7 +163,7 @@ static void create_level(Image *image, char *type, int level,
 }
 
 static void create_levels(Image *image, char *type, unsigned long width,
-							unsigned long height)
+			  unsigned long height)
 {
 	unsigned int max_level;
 	unsigned int columns;
@@ -180,7 +178,7 @@ static void create_levels(Image *image, char *type, unsigned long width,
 		rows = ceil((float)height / TILE_SZ);
 
 		printf("level %d is %lu x %lu (%u columns, %u rows)\n",
-					level, width, height, columns, rows);
+			level, width, height, columns, rows);
 		create_level(image, type, level, width, height, columns, rows);
 
 		width = (width + 1) >> 1; /* +1 for the effects of ceil */
@@ -224,17 +222,17 @@ int main(int argc, char **argv)
 	GetExceptionInfo(&exception);
 	image_info = CloneImageInfo((ImageInfo *)NULL);
 	snprintf(image_info->filename, sizeof(image_info->filename), "%s",
-								image_name);
+		image_name);
 	image = ReadImage(image_info, &exception);
 	if (exception.severity != UndefinedException)
 		CatchImageException(image);
 
 	ext = rindex(image_name, '.');
 	snprintf(deepzoom_directory, strlen(image_name) - strlen(ext) + 1,
-							"%s", image_name);
+		"%s", image_name);
 	strcpy(dzi, deepzoom_directory);
-	strncat(deepzoom_directory, "_files", NAME_MAX -
-						strlen(deepzoom_directory));
+	strncat(deepzoom_directory, "_files",
+		NAME_MAX - strlen(deepzoom_directory));
 	printf("Creating directory: %s\n", deepzoom_directory);
 	mkdir(deepzoom_directory, 0777);
 	chdir(deepzoom_directory);
