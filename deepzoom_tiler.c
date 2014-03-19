@@ -166,16 +166,14 @@ static void create_levels(Image *image, char *type, unsigned long width,
 			  unsigned long height)
 {
 	unsigned int max_level;
-	unsigned int columns;
-	unsigned int rows;
 	int level;
 
 	/* How many times can we half the image in size? */
 	max_level = ceil(log2(MAX(width, height)));
 
 	for (level = max_level; level >= 0; level--) {
-		columns = ceil((float)width / TILE_SZ);
-		rows = ceil((float)height / TILE_SZ);
+		unsigned int columns = ceil((float)width / TILE_SZ);
+		unsigned int rows = ceil((float)height / TILE_SZ);
 
 		printf("level %d is %lu x %lu (%u columns, %u rows)\n",
 			level, width, height, columns, rows);
