@@ -1,7 +1,7 @@
 /*
  * deepzoom_tiler.c - A program to create image tiles for a deepzoom viewer
  *
- * Copyright (C) 2011	Andrew Clayton <andrew@digital-domain.net>
+ * Copyright (C) 2011 - 2014	Andrew Clayton <andrew@digital-domain.net>
  * Released under the GNU General Public License (GPL) version 3.
  * See COPYING
  */
@@ -147,7 +147,7 @@ static void create_level(Image *image, char *type, int level,
 		}
 
 		tile = CropImage(rimage, &cropper, &exception);
-		snprintf(tile->filename, sizeof(tile->filename), "%d/%d_%d.%s",
+		snprintf(tile->filename, sizeof(tile->filename), "%d/%u_%u.%s",
 			level, col, row, type);
 		WriteImage(image_info, tile);
 		DestroyImage(tile);
