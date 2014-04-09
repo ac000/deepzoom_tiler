@@ -1,13 +1,13 @@
 Overview
 ========
 
-This is a program to create image tiles from a given image, that is suitable
-for use in a DeepZoom[1] viewer, such as OpenSeadragon[2].
+This is a program to create image tiles from a given image that is suitable
+for use in a DeepZoom[1] viewer such as OpenSeadragon[2].
 
 Basically it builds up a pyramid of tiles with each level being half the size
 of its predecessor. Each level shows the same image, just at a different size.
 
-See, [3] and [4] for details on this, having read Microsoft's documentation[5],
+See [3] and [4] for details on this, having read Microsoft's documentation[5]
 those proved to be indispensable.
 
 
@@ -21,7 +21,7 @@ Usage
 
 $ deepzoom_tiler [-t tile size] [-o overlap] [-h] <image>
 
--t tile size is the size of the tiles to create. If you don't specify it, it
+-t tile size is the size of the tiles to create. If you don't specify it it
 defaults to 256.
 
 -o overlap is the number of pixels to overlap the tiles by, it defaults to 0
