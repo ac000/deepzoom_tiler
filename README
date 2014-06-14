@@ -10,6 +10,10 @@ of its predecessor. Each level shows the same image, just at a different size.
 See [3] and [4] for details on this, having read Microsoft's documentation[5]
 those proved to be indispensable.
 
+NOTE: If you want to create pyramids of large files (where large uses up
+most/all your memory and takes minutes to complete if at all) then you
+should look at VIPS[7] and this example[8] of how to use it to create
+DeepZoom images.
 
 Requirements
 ============
@@ -71,3 +75,5 @@ mouse wheel to zoom in and out.
 [4] - http://gasi.ch/blog/inside-deep-zoom-2/
 [5] - http://msdn.microsoft.com/en-us/library/cc645077%28v=VS.95%29.aspx
 [6] - http://www.graphicsmagick.org/
+[7] - http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS
+[8] - http://libvips.blogspot.co.uk/2013/03/making-deepzoom-zoomify-and-google-maps.html
