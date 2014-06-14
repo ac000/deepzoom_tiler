@@ -34,7 +34,9 @@ image is the name of the image to tile.
 For a quick start, do the following.
 
 Create a directory, say deepzoom.
-Download OpenSeadragon and stick its files in the above directory.
+Download and untar OpenSeadragon in the above directory. Create a symlink
+for openseadragon -> openseadragon-bin-x.x.x
+
 Put an image in the above directory.
 Run '/path/to/deepzoom_tiler image.jpg' from the above directory.
 
@@ -44,35 +46,16 @@ Create an html file in the above directory, say openseadragon.html with the
 following contents;
 
 <html>
-<head>
-<script type = "text/javascript" src = "OpenSeadragon.js"></script>
-
-<script type="text/javascript">
-	var viewer = null;
-
-	function init() {
-		viewer1 = new Seadragon.Viewer("container");
-		viewer1.openDzi("image.dzi");
-	}
-
-	Seadragon.Utils.addEvent(window, "load", init);
-</script>
-
-<style type = "text/css">
-            #container
-            {
-                width: 400px;
-                height: 400px;
-                background-color: black;
-                border: 1px solid black;
-                color: white;   /* for error messages, etc. */
-            }
-</style>
-</head>
 <body>
-
-<div id = "container"></div>
-
+<div id = "container" style = "width: 800px; height: 600px;"></div>
+<script type = "text/javascript" src = "openseadragon/openseadragon.min.js"></script>
+<script type="text/javascript">
+	var viewer = OpenSeadragon({
+		id: "container",
+		prefixUrl: "openseadragon/images/",
+		tileSources: "image.dzi"
+	});
+</script>
 </body>
 </html>
 
